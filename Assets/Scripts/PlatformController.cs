@@ -25,13 +25,14 @@ public class PlatformController : MonoBehaviour
         currentDir = Direction.Right;
         removing = false;
 
-        for(int i =0; i < transform.childCount; i++)
+        for (int i = 0; i < transform.childCount; i++)
         {
             children.Add(transform.GetChild(i).gameObject);
         }
         children[0].transform.position = new Vector3(1, 1, 0); //sets initial position of first platform to the right of the player.
         children[0].SetActive(true);
-        for(int i = 1; i < 5; i++)
+        GameManager.Instance.platformManager.QueueDirection(Direction.Right);
+        for (int i = 1; i < 5; i++)
         {
             CalcNextPosition(i);
         }
@@ -39,12 +40,17 @@ public class PlatformController : MonoBehaviour
 
     public void OnClick(int d)
     {
-        if (d == 0) transform.position += currentDir == Direction.Left ? new Vector3(1, -1, 0) : new Vector3(-1, -1, 0);
+        if (d == 0)
+        {
+            transform.position += currentDir == Direction.Left ? new Vector3(1, -1, 0) : new Vector3(-1, -1, 0);
+        }
         else
         {
             transform.position += currentDir == Direction.Left ? new Vector3(-1, -1, 0) : new Vector3(1, -1, 0);
             currentDir = currentDir == Direction.Left ? Direction.Right : Direction.Left;
         }
+
+        GameManager.Instance.platformManager.CheckDirection(currentDir);
 
         if (currentPos == transform.childCount - 1) currentPos = 0;
         else currentPos++;
@@ -62,8 +68,16 @@ public class PlatformController : MonoBehaviour
         if (i == 0) prev = transform.childCount - 1;
         else prev = i - 1;
 
-        if (rnd.Next(0, 2) == 0) children[i].transform.position = children[prev].transform.position + new Vector3(1, 1, 0);
-        else children[i].transform.position = children[prev].transform.position + new Vector3(-1, 1, 0);
+        if (rnd.Next(0, 2) == 0)
+        {
+            children[i].transform.position = children[prev].transform.position + new Vector3(1, 1, 0);
+            GameManager.Instance.platformManager.QueueDirection(Direction.Right);
+        }
+        else
+        {
+            children[i].transform.position = children[prev].transform.position + new Vector3(-1, 1, 0);
+            GameManager.Instance.platformManager.QueueDirection(Direction.Left);
+        }
 
         children[i].SetActive(true);
 
