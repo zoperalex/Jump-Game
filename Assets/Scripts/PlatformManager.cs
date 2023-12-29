@@ -9,9 +9,9 @@ public class PlatformManager : MonoBehaviour
 
     void Start()
     {
+        GameManager.Instance.platformManager = this;
         directionQueue = new Queue<Direction>();
         score = 0;
-        GameManager.Instance.platformManager = this;
     }
 
     public void QueueDirection(Direction d)

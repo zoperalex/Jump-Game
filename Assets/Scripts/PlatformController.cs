@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
-using System.Diagnostics.Tracing;
 
 public class PlatformController : MonoBehaviour
 {
@@ -42,11 +40,11 @@ public class PlatformController : MonoBehaviour
     {
         if (d == 0)
         {
-            transform.position += currentDir == Direction.Left ? new Vector3(1, -1, 0) : new Vector3(-1, -1, 0);
+            StartCoroutine(MoveScreen(currentDir == Direction.Left ? 1 : -1));
         }
         else
         {
-            transform.position += currentDir == Direction.Left ? new Vector3(-1, -1, 0) : new Vector3(1, -1, 0);
+            StartCoroutine(MoveScreen(currentDir == Direction.Left ? -1 : 1));
             currentDir = currentDir == Direction.Left ? Direction.Right : Direction.Left;
         }
 
@@ -55,8 +53,8 @@ public class PlatformController : MonoBehaviour
         if (currentPos == transform.childCount - 1) currentPos = 0;
         else currentPos++;
 
-        //checks if we can start removing, only after 11 platforms have already spawned
-        if (!removing && currentPos == 10) removing = true;
+        //checks if we can start removing, only after 12 platforms have already spawned
+        if (!removing && currentPos == 11) removing = true;
 
         CalcNextPosition(currentPos);
     }
@@ -86,5 +84,18 @@ public class PlatformController : MonoBehaviour
         removePos = i - 10;
         if (removePos < 0) removePos = transform.childCount + removePos;
         children[removePos].SetActive(false);
+    }
+
+    IEnumerator MoveScreen(int xPos)
+    {
+        float t = 0;
+        Vector3 initialPos = transform.position;
+        for (int i = 0; i < 20; i++)
+        {
+            yield return new WaitForSeconds(0.0001f);
+            t += 0.05f;
+            transform.position = initialPos + new Vector3(Mathf.Lerp(0, xPos, t), Mathf.Lerp(0, -1, t), 0);
+        }
+        yield return null;
     }
 }

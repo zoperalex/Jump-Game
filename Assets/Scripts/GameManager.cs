@@ -5,8 +5,8 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    public PlatformManager platformManager;
-    public UIManager uiManager;
+    [HideInInspector] public PlatformManager platformManager;
+    [HideInInspector] public UIManager uiManager;
 
     void Awake()
     {
