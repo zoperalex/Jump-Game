@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public PlatformManager platformManager;
+    public UIManager uiManager;
 
     void Awake()
     {
@@ -17,5 +18,10 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
         }
+    }
+
+    public void Lose(int score)
+    {
+        uiManager.GameOver(score);
     }
 }

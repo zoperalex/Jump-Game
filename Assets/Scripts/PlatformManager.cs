@@ -5,11 +5,12 @@ using UnityEngine;
 public class PlatformManager : MonoBehaviour
 {
     Queue<Direction> directionQueue;
-
+    public int score { get; private set; }
 
     void Start()
     {
         directionQueue = new Queue<Direction>();
+        score = 0;
         GameManager.Instance.platformManager = this;
     }
 
@@ -20,14 +21,11 @@ public class PlatformManager : MonoBehaviour
 
     public void CheckDirection(Direction d)
     {
-        if (!d.Equals(directionQueue.Dequeue()))
-        {
-            Debug.Log("Game Over");
-            //GameOver
-        }
+        if (!d.Equals(directionQueue.Dequeue())) GameManager.Instance.Lose(score);
         else
         {
-            Debug.Log("All Good");
+            score++;
+            GameManager.Instance.uiManager.SetScore(score);
         }
     }
 }
