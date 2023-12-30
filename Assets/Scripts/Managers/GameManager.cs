@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     [HideInInspector] public PlatformManager platformManager;
     [HideInInspector] public UIManager uiManager;
+    [HideInInspector] public TimeBarManager timeBarManager;
 
     void Awake()
     {
@@ -22,6 +23,7 @@ public class GameManager : MonoBehaviour
 
     public void Lose(int score)
     {
+        timeBarManager.OnLose();
         uiManager.GameOver(score);
     }
 }

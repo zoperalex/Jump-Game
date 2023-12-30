@@ -9,6 +9,7 @@ public class PlatformController : MonoBehaviour
     int currentPos;
     Direction currentDir;
     bool removing;
+    int currStep;
 
     private void Start()
     {
@@ -22,6 +23,7 @@ public class PlatformController : MonoBehaviour
         currentPos = 4;
         currentDir = Direction.Right;
         removing = false;
+        currStep = 0;
 
         for (int i = 0; i < transform.childCount; i++)
         {
@@ -48,7 +50,13 @@ public class PlatformController : MonoBehaviour
             currentDir = currentDir == Direction.Left ? Direction.Right : Direction.Left;
         }
 
-        GameManager.Instance.platformManager.CheckDirection(currentDir);
+        if (!GameManager.Instance.platformManager.CheckDirection(currentDir))
+        {
+            return;
+        }
+
+        currStep++;
+        GameManager.Instance.timeBarManager.NewBar(currStep);
 
         if (currentPos == transform.childCount - 1) currentPos = 0;
         else currentPos++;

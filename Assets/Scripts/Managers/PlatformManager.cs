@@ -19,13 +19,20 @@ public class PlatformManager : MonoBehaviour
         directionQueue.Enqueue(d);
     }
 
-    public void CheckDirection(Direction d)
+    public bool CheckDirection(Direction d)
     {
         if (!d.Equals(directionQueue.Dequeue())) GameManager.Instance.Lose(score);
         else
         {
             score++;
             GameManager.Instance.uiManager.SetScore(score);
+            return true;
         }
+        return false;
+    }
+
+    public void TimeLose()
+    {
+        GameManager.Instance.Lose(score);
     }
 }
