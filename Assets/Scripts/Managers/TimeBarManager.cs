@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public class TimeBarManager : MonoBehaviour
@@ -24,7 +22,6 @@ public class TimeBarManager : MonoBehaviour
 
     public void OnLose()
     {
-        Debug.Log("yes");
         StopCoroutine("Timer");
     }
 

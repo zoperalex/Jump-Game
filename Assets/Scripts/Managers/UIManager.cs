@@ -1,8 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -36,6 +35,11 @@ public class UIManager : MonoBehaviour
         scoreBoard.SetActive(false);
     }
 
+    public void OnClickRetry()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
     IEnumerator GameOverFade()
     {
         gameOverPanel.gameObject.SetActive(true);
@@ -59,7 +63,7 @@ public class UIManager : MonoBehaviour
         {
             yield return new WaitForSeconds(0.015f);
             t += 0.05f;
-            gameOverTextTransform.localPosition = new Vector2(0, Mathf.Lerp(50, 10, t));
+            gameOverTextTransform.localPosition = new Vector2(0, Mathf.Lerp(200, 80, t));
             gameOverText.color = new Color32(214, 23, 23, (byte)Mathf.Lerp(0, 255, t));
             gameOverScoreText.color = new Color32(255, 255, 255, (byte)Mathf.Lerp(0, 255, t));
         }
